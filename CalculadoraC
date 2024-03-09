@@ -1,0 +1,111 @@
+#include <stdio.h>
+#include <stdlib.h>
+
+// Função para converter um número para hexadecimal
+void decimalToHexadecimal(float num) {
+    printf("Hexadecimal: %X\n", (int)num);
+}
+
+// Função para converter um número para octal
+void decimalToOctal(float num) {
+    printf("Octal: %o\n", (int)num);
+}
+
+// Função para converter um número para binário
+void decimalToBinary(float num) {
+    int bin[32], i = 0;
+    int numInt = (int)num;
+
+    while (numInt > 0) {
+        bin[i] = numInt % 2;
+        numInt = numInt / 2;
+        i++;
+    }
+
+    printf("Binário: ");
+    for (int j = i - 1; j >= 0; j--) {
+        printf("%d", bin[j]);
+    }
+    printf("\n");
+}
+
+int main() {
+    // Declaração de variáveis
+    float num1, num2, resultado;
+    char operacao;
+
+    // Entrada de dados
+    printf("Calculadora Simples\n");
+
+    // Loop principal
+    while (1) {
+        printf("Digite o primeiro número: ");
+        scanf("%f", &num1);
+
+        printf("Digite a operação (+, -, *, /, %%, h, o, b, C): ");
+        scanf(" %c", &operacao);
+
+        if (operacao == 'C') {
+            // Limpar tudo
+            system("clear");  // Para sistemas Unix/Linux
+            //system("cls");  // Para sistemas Windows
+            continue;
+        }
+
+        if (operacao == 'h' || operacao == 'o' || operacao == 'b') {
+            // Operações de conversão
+            switch (operacao) {
+                case 'h':
+                    decimalToHexadecimal(num1);
+                    break;
+                case 'o':
+                    decimalToOctal(num1);
+                    break;
+                case 'b':
+                    decimalToBinary(num1);
+                    break;
+            }
+            continue;
+        }
+
+        printf("Digite o segundo número: ");
+        scanf("%f", &num2);
+
+        // Realiza a operação selecionada
+        switch (operacao) {
+            case '+':
+                resultado = num1 + num2;
+                break;
+            case '-':
+                resultado = num1 - num2;
+                break;
+            case '*':
+                resultado = num1 * num2;
+                break;
+            case '/':
+                if (num2 != 0) {
+                    resultado = num1 / num2;
+                } else {
+                    printf("Erro: Divisão por zero não permitida.\n");
+                    continue;
+                }
+                break;
+            case '%':
+                if (num2 != 0) {
+                    resultado = (int)num1 % (int)num2;
+                } else {
+                    printf("Erro: Divisão por zero não permitida.\n");
+                    continue;
+                }
+                break;
+            default:
+                printf("Erro: Operação inválida.\n");
+                continue;
+        }
+
+        // Exibe o resultado
+        printf("Resultado: %.2f\n", resultado);
+    }
+
+    return 0;
+}
